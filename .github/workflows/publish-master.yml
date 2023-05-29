@@ -65,7 +65,7 @@ jobs:
           echo 'Tag v${{ steps.read-package-json-version.outputs.current-version }}' doesnt exist yet
 
       - name: create-tag
-        if: !steps.find-package-json-corresponding-tag.outputs.exists
+        if: steps.find-package-json-corresponding-tag.outputs.exists == false
         run: |
           git config user.name ${{ github.actor }}
           git config user.email ${{ steps.getemail.outputs.email }}
