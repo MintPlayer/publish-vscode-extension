@@ -60,7 +60,7 @@ jobs:
           tag: v${{ steps.read-package-json-version.outputs.current-version }}
 
       - name: check-create-tag
-        if: steps.find-package-json-corresponding-tag.outcome != 'success'
+        if: steps.find-package-json-corresponding-tag.outputs.exists == false
         run: |
           echo 'Tag v${{ steps.read-package-json-version.outputs.current-version }}' doesnt exist yet
 
