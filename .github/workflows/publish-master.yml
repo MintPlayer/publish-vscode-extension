@@ -55,15 +55,22 @@ jobs:
 
       - name: Check if a tag exists which corresponds to the current package.json version
         id: find-package-json-corresponding-tag
-        uses: jimschubert/query-tag-action@v1
+        uses: mukunku/tag-exists-action@v1.2.0
         with:
-          include: v${{ steps.read-package-json-version.outputs.current-version }}
+          tag: v${{ steps.read-package-json-version.outputs.current-version }}
 
       - name: check-create-tag
-        if: steps.find-package-json-corresponding-tag.outputs.tag != steps.read-package-json-version.outputs.current-version
+        if: steps.find-package-json-corresponding-tag.outcome != 'success'
         run: |
-          echo 'Tag ${{ steps.read-package-json-version.outputs.current-version }}' doesnt exist yet
+          echo 'Tag v${{ steps.read-package-json-version.outputs.current-version }}' doesnt exist yet
 
+      - name: create-tag
+        if: !steps.find-package-json-corresponding-tag.outputs.exists
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email ${{ steps.getemail.outputs.email }}
+          git tag v${{ steps.read-package-json-version.outputs.current-version }}
+          git push --tags --force    
       # - name: Update Major Tag
       #   run: |
       #     MAJOR_VERSION=$(git tag | grep -oP "\Kv[0-9]+" | tail -1)
