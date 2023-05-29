@@ -19,7 +19,7 @@ jobs:
           - 16
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get tags
         run: git fetch --tags origin
       - name: Install Node ${{ matrix.node }}
@@ -78,6 +78,6 @@ jobs:
       #     git config user.email ${{ steps.getemail.outputs.email }}
       #     git tag -afm "Updated tag $MAJOR_VERSION to $(git tag | grep -oP "\Kv[0-9]+" | tail -1)" $MAJOR_VERSION
       #     git push --tags --force
-
+          
 # Create a tag manually using the command line
 # Publish to Github Marketplace should be done from the homepage
