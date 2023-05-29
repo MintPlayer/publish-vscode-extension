@@ -57,7 +57,7 @@ jobs:
         id: find-package-json-corresponding-tag
         uses: jimschubert/query-tag-action@v1
         with:
-          include: ${{ steps.read-package-json-version.outputs.current-version }}
+          include: v${{ steps.read-package-json-version.outputs.current-version }}
 
       - name: check-create-tag
         if: steps.find-package-json-corresponding-tag.outputs.tag != steps.read-package-json-version.outputs.current-version

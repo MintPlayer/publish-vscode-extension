@@ -1,7 +1,7 @@
 {
   "name": "@mintplayer/publish-vscode-extension",
   "private": false,
-  "version": "1.0.0",
+  "version": "4.0.0",
   "description": "Github action to publish a VS Code extension to the Visual Studio MarketPlace",
   "main": "dist/index.js",
   "scripts": {
