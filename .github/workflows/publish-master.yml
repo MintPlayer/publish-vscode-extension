@@ -42,12 +42,27 @@ jobs:
                     "and check in all changes" \
               && exit 1)
         
-      # - name: get email
-      #   id: getemail
-      #   uses: evvanErb/get-github-email-by-username-action@v1.25
-      #   with:
-      #     github-username: ${{ github.actor }}
-      #     #token: ${{ github.token }}
+      - name: Get NPM version
+        id: read-package-json-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+      - name: get email
+        id: getemail
+        uses: evvanErb/get-github-email-by-username-action@v1.25
+        with:
+          github-username: ${{ github.actor }}
+          #token: ${{ github.token }}
+
+      - name: Check if a tag exists which corresponds to the current package.json version
+        id: find-package-json-corresponding-tag
+        uses: jimschubert/query-tag-action@v1
+        with:
+          include: ${{ steps.read-package-json-version.outputs.current-version }}
+
+      - name: check-create-tag
+        if: steps.find-package-json-corresponding-tag.outputs.tag != steps.read-package-json-version.outputs.current-version
+        run: |
+          echo 'Tag ${{ steps.read-package-json-version.outputs.current-version }}' doesnt exist yet
 
       # - name: Update Major Tag
       #   run: |
