@@ -70,7 +70,16 @@ jobs:
           git config user.name ${{ github.actor }}
           git config user.email ${{ steps.getemail.outputs.email }}
           git tag v${{ steps.read-package-json-version.outputs.current-version }}
-          git push --tags --force    
+          git push --tags --force
+
+      - name: Create a Release
+        uses: elgohr/Github-Release-Action@v4
+        env:
+          # GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          title: v${{ steps.read-package-json-version.outputs.current-version }}
+
       # - name: Update Major Tag
       #   run: |
       #     MAJOR_VERSION=$(git tag | grep -oP "\Kv[0-9]+" | tail -1)
